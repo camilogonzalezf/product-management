@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name_product');
             $table->text('description');
             $table->decimal('price',10,2);
-            $table->unsignedBigInteger('id_category');
+            $table->unsignedBigInteger('category_id');
+            $table->timestamps();
         });
     }
 
