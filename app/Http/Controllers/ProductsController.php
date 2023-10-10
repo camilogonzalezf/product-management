@@ -17,22 +17,24 @@ class ProductsController extends Controller
 
     public function store(Request $request)
         {
-            // $request->validate([
-            //     'name_customer' => 'required|min:3',
-            //     'email' => 'required|email',
-            // ]);
-            $customer = new Products;
-            $customer->name_product = $request->name_product;
-            $customer->description = $request->description;
-            $customer->price = $request->price;
-            $customer->category_id = $request->category_id;
-            $customer->save();
+            $request->validate([
+                'name_product' => 'required|min:3',
+                'descripcion' => 'required|min:3',
+                'price' => 'required|numeric',
+                'category_id' => 'required|numeric',
+            ]);
+            $products = new Products;
+            $products->name_product = $request->name_product;
+            $products->description = $request->description;
+            $products->price = $request->price;
+            $products->category_id = $request->category_id;
+            $products->save();
             return redirect()->route('products')->with('success', 'Producto registrado correctamente');
         }
 
         public function destroy($id){
-            $customer = Products::find($id);
-            $customer->delete();
+            $products = Products::find($id);
+            $products->delete();
             return redirect()->route('products')->with('success', 'Producto  eliminado');
         }
 }

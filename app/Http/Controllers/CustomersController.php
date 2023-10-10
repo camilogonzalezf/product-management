@@ -17,6 +17,8 @@ class CustomersController extends Controller
             $request->validate([
                 'name_customer' => 'required|min:3',
                 'email' => 'required|email',
+                'address' => 'required|min:3',
+                'number_phone' => 'required|numeric',
             ]);
             $customer = new Customers;
             $customer->name_customer = $request->name_customer;
