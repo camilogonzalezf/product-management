@@ -9,7 +9,7 @@ use App\Models\Products;
 use Illuminate\Http\Request;
 
 class Element {
-            public $product;
+    public $product;
     public $price;
     public $price_total;
     public $quantity;
@@ -75,14 +75,24 @@ class OrderDetailsController extends Controller
             ->with('success', 'Detalle de orden creada correctamente');
     }
 
-    public function update(Request $request, $customer_id,$order_id, $great_order_id, $product_id )
+    public function update(Request $request, $customer_id,$order_id, $great_order_id, $product_id)
     {
         $order = OrderDetails::find($order_id);
         $product = Products::find($product_id);
-        $thisOrder = Orders::find($order_id);
+        $thisOrder = Orders::find($great_order_id);
+        $thisOrder->total = 0;
+        $thisOrder->save();
         $order->quantity= intval($request->quantity);
         $order->price_total=intval($request->quantity)*$product->price;
         $order->save();
+
+        $finalOrders = OrderDetails::where('order_id',$great_order_id)->get();
+        $final_value = 0.0;
+        foreach($finalOrders as $element){
+            $final_value = $final_value + $element->price_total;
+        }
+        $thisOrder->total = $final_value;
+        $thisOrder->save();
         return redirect()->route(
             'order-detail-show',
             ['customer_id'=>$customer_id,

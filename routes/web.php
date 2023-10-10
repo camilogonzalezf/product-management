@@ -59,5 +59,3 @@ Route::patch('/order-detail/{customer_id}/{order_id}/{great_order_id}/{product_i
 
 Route::delete('/order-detail/{order_id}/{customer_id}/{great_order_id}',[OrderDetailsController::class,'destroy'])->name('order-detail-destroy');
 
-
-
